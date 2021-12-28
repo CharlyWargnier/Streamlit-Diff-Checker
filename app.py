@@ -70,7 +70,7 @@ with st.form("my_form"):
 
         if len(linesList) > MAX_LINES:
             st.warning(
-                f"⚠️ Only the first 200 keywords will be reviewed. Increased allowance  is coming - Stay tuned! 😊)"
+                f"⚠️ Only the first 200 lines will be reviewed. Increased allowance  is coming, stay tuned! 😊)"
             )
             linesList = linesList[:MAX_LINES]
 
@@ -87,7 +87,7 @@ with st.form("my_form"):
 
         if len(linesList2) > MAX_LINES:
             st.warning(
-                f"⚠️ Only the first 200 keywords will be reviewed. Increased allowance  is coming - Stay tuned! 😊)"
+                f"⚠️ Only the first 200 lines will be reviewed. Increased allowance  is coming, stay tuned! 😊)"
             )
             linesList2 = linesList2[:MAX_LINES]
 
