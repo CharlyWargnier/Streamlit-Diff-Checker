@@ -1,4 +1,4 @@
-import streamlit as st
+#import streamlit as st
 import difflib as dl
 import os
 from functionforDownloadButtons import download_button
@@ -56,7 +56,7 @@ with st.form("my_form"):
         linesDeduped2 = []
         MAX_LINES = 50
         text = st.text_area(
-            "Text snippet A",
+            "List A",
             height=200,
             key="2",
             placeholder="'Python', 'Java', 'C++', 'PHP'",
@@ -74,7 +74,7 @@ with st.form("my_form"):
         linesDeduped2 = []
         MAX_LINES = 50
         text2 = st.text_area(
-            "Text snippet B",
+            "List B",
             height=200,
             key="1",
             placeholder="'Mython', 'Java', 'C++', 'PHP'",
@@ -171,6 +171,25 @@ Ticking the **'Compare character by character'** option will display the differe
         """     
 
 Ticking the **'Unify diffs'** option will unify the two lists together, which is more readable in my opinion.
+
+	    """
+    )
+    st.write(
+        """     
+            """
+    )
+    st.write(
+        """     
+
+** Known limitations**
+
+	    """
+    )
+
+    st.write(
+        """     
+
+Works well with lists, less well with paragraphs! :)
 
 	    """
     )
