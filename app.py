@@ -42,7 +42,7 @@ with c32:
     st.caption("")
 
     st.caption(
-        "&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Made in [![this is an image link](https://i.imgur.com/iIOA6kU.png)](https://www.streamlit.io/)&nbsp, with :heart: by [@DataChaz](https://www.charlywargnier.com/) | [![this is an image link](https://i.imgur.com/thJhzOO.png)](https://www.buymeacoffee.com/cwar05)"
+        "&nbsp &nbsp &nbsp &nbsp Made in [![this is an image link](https://i.imgur.com/iIOA6kU.png)](https://www.streamlit.io/)&nbsp, with :heart: by [@DataChaz](https://www.charlywargnier.com/) | [![this is an image link](https://i.imgur.com/thJhzOO.png)](https://www.buymeacoffee.com/cwar05)"
     )
 
 st.write("")
@@ -199,11 +199,9 @@ Works well with lists, less well with paragraphs! :)
             """
     )
 
-    # https://i.imgur.com/0Z3H7Tq.png
-
     st.markdown("")
 
-# No options selected
+# No options selected ---------------------------
 if submitted and not rowLevel and not UnifyDiffs:
 
     st.write("")
@@ -216,9 +214,7 @@ if submitted and not rowLevel and not UnifyDiffs:
 
     st.write("")
 
-    downloadButton = download_button(string, "Diff_file.txt", "Download diff file")
-
-# Row level analysis ---------------------------
+# Unify Diffs ---------------------------
 elif submitted and UnifyDiffs and not rowLevel:
 
     st.write("")
@@ -230,8 +226,6 @@ elif submitted and UnifyDiffs and not rowLevel:
         string = str(textFinal)
 
     st.write("")
-
-    downloadButton = download_button(string, "Diff_file.txt", "Download diff file")
 
 # UnifyDiffs analysis ---------------------------
 elif submitted and rowLevel and not UnifyDiffs:
@@ -245,8 +239,6 @@ elif submitted and rowLevel and not UnifyDiffs:
         string = str(textFinal)
 
     st.write("")
-
-    downloadButton = download_button(string, "Diff_file.txt", "Download diff file")
 
 elif submitted and rowLevel and UnifyDiffs:
 
