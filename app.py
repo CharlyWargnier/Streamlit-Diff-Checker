@@ -3,9 +3,13 @@ import difflib as dl
 import os
 from functionforDownloadButtons import download_button
 
+import streamlit as st
+from streamlit_elements import Elements
+
 st.set_page_config(page_title="Diff Checher ", page_icon="📑")
 
 
+# Creating a list of numbers from 0 to 99.
 def _max_width_():
     max_width_str = f"max-width: 1000px;"
     st.markdown(
@@ -19,6 +23,12 @@ def _max_width_():
         unsafe_allow_html=True,
     )
 
+
+st.write(
+    "<style>div.row-widget.stRadio > div{flex-direction:row;}</style>",
+    unsafe_allow_html=True,
+)
+# We create a streamlit widget that contains a radio button.
 
 _max_width_()
 
@@ -42,10 +52,38 @@ with c32:
     st.caption("")
 
     st.caption(
-        "&nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp &nbsp Made in [![this is an image link](https://i.imgur.com/iIOA6kU.png)](https://www.streamlit.io/)&nbsp, with :heart: by [@DataChaz](https://www.charlywargnier.com/) | [![this is an image link](https://i.imgur.com/thJhzOO.png)](https://www.buymeacoffee.com/cwar05)"
+        "Made in [![this is an image link](https://i.imgur.com/iIOA6kU.png)](https://www.streamlit.io/)&nbsp, with :heart: by [@DataChaz](https://www.charlywargnier.com/) | [![this is an image link](https://i.imgur.com/thJhzOO.png)](https://www.buymeacoffee.com/cwar05)"
     )
 
-st.write("")
+# st.write(
+#     """
+#
+# Works well with lists, less well with paragraphs! :)
+#
+# 	    """
+# )
+
+col1, col2 = st.columns([1.05, 1])
+
+with col1:
+    # st.header("A dog")
+    radio_buttons = st.radio("Boxes size", ["small", "medium", "large"])
+
+with col2:
+    # st.header("A cat")
+    st.write("")
+    st.write("")
+    render_side_by_side = st.checkbox("Render side-by-side", False)
+
+if radio_buttons == "small":
+    height_text_area = 200
+elif radio_buttons == "medium":
+    height_text_area = 400
+elif radio_buttons == "large":
+    height_text_area = 600
+
+# height_text_area = st.slider("slider 1", min_value=200, max_value=600, value=200)
+
 
 with st.form("my_form"):
 
@@ -57,9 +95,10 @@ with st.form("my_form"):
         MAX_LINES = 50
         text = st.text_area(
             "List A",
-            height=200,
+            "'Python', 'Cava', 'C++', 'PLP'",
+            height=height_text_area,
             key="2",
-            placeholder="'Python', 'Java', 'C++', 'PHP'",
+            placeholder="'Python', 'Cava', 'C++', 'PLP'",
         )
         lines = text.split("\n")  # A list of lines
         linesList = []
@@ -75,7 +114,8 @@ with st.form("my_form"):
         MAX_LINES = 50
         text2 = st.text_area(
             "List B",
-            height=200,
+            "'Mython', 'Java', 'C++', 'PHP'",
+            height=height_text_area,
             key="1",
             placeholder="'Mython', 'Java', 'C++', 'PHP'",
         )
@@ -87,30 +127,6 @@ with st.form("my_form"):
         if len(linesList2) > MAX_LINES:
             st.warning(f"⚠️ Only the first 50 lines will be reviewed.")
             linesList2 = linesList2[:MAX_LINES]
-
-    st.write("")
-
-    c30, c31, c32 = st.columns([1.5, 0.1, 3])
-
-    with c30:
-
-        rowLevel = st.checkbox(
-            "Compare character by character",
-            value=False,
-            key="3",
-            help="Ticking this option will indicate the differences more accurately, showing different character by character. We will see letters that have been changed via the ^ indicator.",
-        )
-
-    with c32:
-
-        UnifyDiffs = st.checkbox(
-            "Unify diffs",
-            value=False,
-            key="4",
-            help="By ticking this option, the unified_diff() function will “unify” the two lists together can generate the outputs as above-shown, which is more readable in my opinion.",
-        )
-
-    st.write("")
 
     submitted = st.form_submit_button("✨ Compare!")
 
@@ -148,43 +164,6 @@ The diff checker app will show what has been changed (with a minus plus sign) an
 
 	    """
     )
-    st.write(
-        """     
-Ticking the **'Compare character by character'** option will display the differences more accurately, character by character. You will see the letters that have been changed via the ^ indicator.
-
-	    """
-    )
-
-    st.write(
-        """     
-            """
-    )
-    st.write(
-        """     
-
-** Unify diffs**
-
-	    """
-    )
-
-    st.write(
-        """     
-
-Ticking the **'Unify diffs'** option will unify the two lists together, which is more readable in my opinion.
-
-	    """
-    )
-    st.write(
-        """     
-            """
-    )
-    st.write(
-        """     
-
-** Known limitations**
-
-	    """
-    )
 
     st.write(
         """     
@@ -201,46 +180,42 @@ Works well with lists, less well with paragraphs! :)
 
     st.markdown("")
 
-# No options selected ---------------------------
-if submitted and not rowLevel and not UnifyDiffs:
+# Create a new element context
+mt = Elements()
 
-    st.write("")
+# original="".join(linesList2)
+original = "".join(text)
+# modified="".join(linesList)
+modified = "".join(text2)
 
-    dl.context_diff(linesList, linesList2)
 
-    for diff in dl.context_diff(linesList, linesList2):
-        textFinal = st.text(diff)
-        string = str(textFinal)
+if render_side_by_side:
+    # mt.render_side_by_side(original, modified)
+    Options = {"renderSideBySide": True}
+else:
+    Options = {"renderSideBySide": False}
 
-    st.write("")
 
-# Unify Diffs ---------------------------
-elif submitted and UnifyDiffs and not rowLevel:
+# Example taken from https://material-ui.com/components/data-grid/
+if submitted:
+    with mt.paper:
+        mt.monaco.diff(
+            # options={"automaticLayout": True},
+            # Does not work
+            # options={"wordWrap": "on"},
+            # options={"wordWrapBreakAfterCharacters": "."},
+            # wordWrapBreakAfterCharacters?: string
+            # options={"diffWordWrap": "on"},
+            # WORKS! keep for horizontal scroll
+            options=Options,
+            # options={"renderSideBySide": False},
+            height=height_text_area,
+            # original="Hello there!",
+            original=original,
+            # original=linesList2,
+            # modified="Goodbye there!",
+            # modified=linesList,
+            modified=modified,
+        )
 
-    st.write("")
-
-    dl.context_diff(linesList, linesList2)
-
-    for diff in dl.unified_diff(linesList, linesList2):
-        textFinal = st.text(diff)
-        string = str(textFinal)
-
-    st.write("")
-
-# UnifyDiffs analysis ---------------------------
-elif submitted and rowLevel and not UnifyDiffs:
-
-    st.write("")
-
-    dl.ndiff(linesList, linesList2)
-
-    for diff in dl.ndiff(linesList, linesList2):
-        textFinal = st.text(diff)
-        string = str(textFinal)
-
-    st.write("")
-
-elif submitted and rowLevel and UnifyDiffs:
-
-    st.warning("⚠️ You can't select both options, please tick only one")
-    st.stop()
+    mt.show()
