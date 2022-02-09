@@ -51,18 +51,6 @@ with c32:
     st.caption("")
     st.caption("")
 
-    st.caption(
-        "Made in [![this is an image link](https://i.imgur.com/iIOA6kU.png)](https://www.streamlit.io/)&nbsp, with :heart: by [@DataChaz](https://www.charlywargnier.com/) | [![this is an image link](https://i.imgur.com/thJhzOO.png)](https://www.buymeacoffee.com/cwar05)"
-    )
-
-# st.write(
-#     """
-#
-# Works well with lists, less well with paragraphs! :)
-#
-# 	    """
-# )
-
 col1, col2 = st.columns([1.05, 1])
 
 with col1:
